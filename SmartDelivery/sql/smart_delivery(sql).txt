@@ -1,0 +1,31 @@
+create table membership(
+userid      varchar2(20) primary key,
+userpw      varchar2(20) not null,
+useremail   varchar2(50) not null 
+);
+
+create table deliveryboard(
+    boardnum    number          primary key,
+    userid      varchar2(20)    not null,
+    title       varchar2(100)   not null,
+    content     varchar2(2000)  not null,
+    inputdate   date            default sysdate,
+    hit         number          default 0
+    );
+    
+create table customerboard(
+    boardnum    number          primary key,
+    userid      varchar2(20)    not null,
+    title       varchar2(100)   not null,
+    content     varchar2(2000)  not null,
+    inputdate   date            default sysdate,
+    hit         number          default 0
+    );
+
+drop table membership
+drop table deliveryboard;
+drop table customerboard;
+
+create sequence deliveryboard_seq;
+create sequence customerboard_seq;
+commit;

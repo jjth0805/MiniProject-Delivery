@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.smart.delivery.dao.CustomerMapper">
+<select id="customerBoardList" parameterType="map" resultType="customerVO">
+			SELECT
+			      *
+			FROM
+			      customerboard
+			WHERE
+					<choose>
+						<when test="searchItem == 'title'">title</when>
+					</choose>
+					<choose>
+						<when test="searchItem == 'userId'">userId</when>
+					</choose>
+					<choose>
+						<when test="searchItem == 'content'">content</when>
+					</choose>
+			LIKE '%'||#{searchKeyword}||'%'
+			
+			ORDER BY boardNum
+</select>
+<insert id="customerBoardWrite" parameterType="customerVO">
+	        INSERT INTO
+	                customerboard
+	        VALUES(
+			        customerboard_seq.nextval
+			        ,#{userId}
+			        ,#{title}
+			        ,#{content}
+			        ,SYSDATE
+			        ,#{hit}
+	        )
+</insert>
+<select id="customerBoardSearch" parameterType="map" resultType="customerVO">
+            SELECT
+                    *
+            FROM
+                    customerboard
+            WHERE
+                    <choose>
+                        <when test="searchItem == 'userId'">userId</when>
+                        <when test="searchItem == 'title'">title</when>
+                        <when test="searchItem == 'content'">content</when>
+                    </choose>
+             LIKE '%'||#{searchKeyword}||'%'
+             ORDER BY boardNum
+</select>
+<select id="customerBoardRead" parameterType="int" resultType="customerVO">
+	        SELECT
+	                *
+	        FROM
+	                customerboard
+	        WHERE
+	                boardNum = #{boardNum}
+</select>
+<delete id="customerBoardDelete" parameterType="customerVO">
+	        DELETE FROM
+	               customerboard
+	        WHERE
+			        boardNum = #{boardNum} AND
+			        userId = #{userId}
+</delete>
+<update id="customerBoardHit" parameterType="int">
+            UPDATE
+                    customerboard
+            SET 
+                    hit = hit+1
+            WHERE 
+                    boardNum = #{boardNum}
+</update>
+<update id="customerBoardUpdate" parameterType="customerVO">
+            UPDATE
+                    customerboard
+            SET
+		            title=#{title}
+		            ,content=#{content}
+		    WHERE
+		            userId=#{userId} AND
+		            boardNum=#{boardNum}
+</update>
+</mapper>

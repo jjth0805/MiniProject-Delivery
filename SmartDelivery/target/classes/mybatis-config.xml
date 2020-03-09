@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <settings>
+        <setting name="jdbcTypeForNull" value="NULL" />
+    </settings>
+	<typeAliases>
+	    <typeAlias type="com.smart.delivery.vo.MemberVO" alias="memberVO"/>
+	    <typeAlias type="com.smart.delivery.vo.DeliveryBoardVO" alias="boardVO"/>
+	    <typeAlias type="com.smart.delivery.vo.CustomerBoardVO" alias="customerVO"/>
+	</typeAliases>
+	<mappers>
+	    <mapper resource="mapper/memberMapper.xml"/>
+	    <mapper resource="mapper/boardMapper.xml"/>
+	    <mapper resource="mapper/customerMapper.xml"/>
+	</mappers>
+</configuration>

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.smart.delivery.dao.BoardMapper">
+<select id="boardList" parameterType="map" resultType="boardVO">
+			SELECT
+			      *
+			FROM
+			      deliveryboard
+			WHERE
+					<choose>
+						<when test="searchItem == 'title'">title</when>
+					</choose>
+					<choose>
+						<when test="searchItem == 'userId'">userId</when>
+					</choose>
+					<choose>
+						<when test="searchItem == 'content'">content</when>
+					</choose>
+			LIKE '%'||#{searchKeyword}||'%'
+			
+			ORDER BY boardNum
+</select>
+<insert id="boardWrite" parameterType="boardVO">
+	        INSERT INTO
+	                deliveryboard
+	        VALUES(
+	        deliveryboard_seq.nextval
+	        ,#{userId}
+	        ,#{title}
+	        ,#{content}
+	        ,SYSDATE
+	        ,#{hit}
+	        )
+</insert>
+<select id="boardSearch" parameterType="map" resultType="boardVO">
+            SELECT
+                    *
+            FROM
+                    deliveryboard
+            WHERE
+                    <choose>
+                        <when test="searchItem == 'userId'">userId</when>
+                        <when test="searchItem == 'title'">title</when>
+                        <when test="searchItem == 'content'">content</when>
+                    </choose>
+             LIKE '%'||#{searchKeyword}||'%'
+             ORDER BY boardNum
+</select>
+<select id="boardRead" parameterType="int" resultType="boardVO">
+	        SELECT
+	                *
+	        FROM
+	                deliveryboard
+	        WHERE
+	                boardNum = #{boardNum}
+</select>
+<delete id="boardDelete" parameterType="boardVO">
+	        DELETE FROM
+	        deliveryboard
+	        WHERE
+	        boardNum = #{boardNum} AND
+	        userId = #{userId}
+</delete>
+<update id="boardHit" parameterType="int">
+            UPDATE
+                    deliveryboard
+            SET 
+                    hit = hit+1
+            WHERE 
+                    boardNum = #{boardNum}
+</update>
+<update id="boardUpdate" parameterType="boardVO">
+            UPDATE
+            deliveryboard
+            SET
+            title=#{title}
+            ,content=#{content}
+            WHERE
+            userId=#{userId} AND
+            boardNum=#{boardNum}
+</update>
+</mapper>
